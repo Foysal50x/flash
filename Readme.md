@@ -132,5 +132,5 @@ The original author of Flash is [Faisal Ahmed](https://github.com/faisal50x)
 [npm-image]: https://img.shields.io/npm/v/@faisal50x/flash.svg
 [npm-url]: https://npmjs.org/package/@faisal50x/flash
 
-[downloads-image]: https://img.shields.io/npm/dt/@faisal50x/flashcli.svg
+[downloads-image]: https://img.shields.io/npm/dt/@faisal50x/flash.svg
 [downloads-url]: https://npmjs.org/package/@faisal50x/flash
