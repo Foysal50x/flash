@@ -1,0 +1,35 @@
+{
+  "name": "@faisal50x/flash",
+  "version": "0.4.0",
+  "description": "Flash is a nodejs framework that helps you quickly write simple yet powerful web applications and APIs",
+  "keywords": [
+    "Flash",
+    "Framework",
+    "nodejs Framework",
+    "flash",
+    "express",
+    "ORM",
+    "mongoose"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Faisal Ahmed",
+    "email": "hello@imfaisal.me",
+    "url": "http://imfaisal.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Faisal50x/flash.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "directory-tree": "^2.2.0",
+    "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
+    "mongoose": "^5.4.0",
+    "sequelize": "^4.42.0"
+  }
+}
