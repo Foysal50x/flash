@@ -1,3 +1,13 @@
+/**
+ * @author Faisal Ahmed
+ * @email hello@imfaisal.me
+ * @mobile 01788656451
+ * 
+ * Copyright (c) 2018-present, Faisal Ahmed.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the https://github.com/Faisal50x/flash/blob/master/LICENSE .
+ */
 
 module.exports = {
     /**
@@ -31,7 +41,7 @@ module.exports = {
          * @description application role management setup
          * @default ['guest','user','admin']
          */
-        ROLES: ['guest','user','admin']
+        ROLES: ['guest', 'user', 'admin']
     },
     session: {
         /**
@@ -45,7 +55,7 @@ module.exports = {
          * @description set your own session expire time
          * @default 60*60*24*7 1week
          */
-        EXPIRESIN: 60*60*24*7
+        EXPIRESIN: 60 * 60 * 24 * 7
     }
 };
 
@@ -58,12 +68,12 @@ module.exports.database = {
      * when prepare your full application to deploy change environment to production
      */
     environment: "development:mongodb",
-    development:{
+    development: {
         /**
          * Mongo DB Setup
          * Use your own mongodb database connection
          */
-        mongodb:{
+        mongodb: {
             host: "127.0.0.1",
             port: "27017",
             dbName: "blog",
@@ -76,23 +86,23 @@ module.exports.database = {
          * @supported mysql|sqlite|postgres|mssql
          * @default mysql
          */
-        sql:{
-            driver:'mysql',
-            host:'localhost',
+        sql: {
+            driver: 'mysql',
+            host: 'localhost',
             dbName: 'test',
-            dbPass:'',
-            dbUser:'root',
+            dbPass: '',
+            dbUser: 'root',
 
             // SQLite only
-            storage:'path/to/database.sqlite'
+            storage: 'path/to/database.sqlite'
         }
     },
-    production:{
+    production: {
         /**
          * Mongo DB Setup
          * Use your own mongodb database connection
          */
-        mongodb:{
+        mongodb: {
             host: "127.0.0.1",
             port: "27017",
             dbName: "blog",
@@ -105,15 +115,15 @@ module.exports.database = {
          * @supported mysql|sqlite|postgres|mssql
          * @default mysql
          */
-        sql:{
-            driver:'mysql',
-            host:'localhost',
+        sql: {
+            driver: 'mysql',
+            host: 'localhost',
             dbName: 'test',
-            dbPass:'',
-            dbUser:'root',
+            dbPass: '',
+            dbUser: 'root',
 
             // SQLite only
-            storage:'path/to/database.sqlite'
+            storage: 'path/to/database.sqlite'
         }
     }
 };

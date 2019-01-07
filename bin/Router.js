@@ -1,3 +1,13 @@
+/**
+ * @author Faisal Ahmed
+ * @email hello@imfaisal.me
+ * @mobile 01788656451
+ * 
+ * Copyright (c) 2018-present, Faisal Ahmed.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the https://github.com/Faisal50x/flash/blob/master/LICENSE .
+ */
 const express = require('express');
 const dirTree = require('directory-tree');
 
@@ -53,6 +63,7 @@ class Router extends express.Router {
     constructor($app) {
         super();
         this.app = $app;
+        this.bindPrefix = null;
         this.inject = null;
         this.group = function () {
             if (this.inject != null) this.inject = null;
@@ -70,6 +81,7 @@ class Router extends express.Router {
             }
 
             if (typeof $prefix !== undefined && typeof $callback == "function") {
+                this.bindPrefix = (this.bindPrefix == null) ? $prefix : this.bindPrefix + $prefix;
                 if (arguments.length === 3) {
 
                     for (let i = 0; i < $middleware.length; i++) {
@@ -84,8 +96,7 @@ class Router extends express.Router {
                     $callback();
 
                 } else $callback();
-
-                return this.app.use($prefix, this);
+                return this.app.use(this.bindPrefix, this);
             }
 
         };
