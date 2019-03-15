@@ -43,11 +43,11 @@ const $controllerObject = ($args) => {
         parseController(null, $args[0]) :
         parseController(inject, subdir[len]);
     //console.log("dirpath", __basedir + "/" + cdirpath)
-    let reqFile = require(__basedir + "/" + cdirpath);
+    const reqFile = require(__basedir + "/" + cdirpath);
     return new reqFile();
 };
 
-let $injectController = (args, $inject) => {
+const $injectController = (args, $inject) => {
     let cf = args[0].split(".");
     if ($inject != null) {
         let newInject = $inject[$inject.length - 1] === "." ? $inject.slice(0, -1) : $inject;
@@ -63,18 +63,19 @@ class Router extends express.Router {
     constructor($app) {
         super();
         this.app = $app;
-        this.bindPrefix = null;
         this.inject = null;
-        this.group = function () {
+        this.bindPrefix = null;
+        this.verbs = ["get","post","put","patch","delete"];
+        this.group = (...args) => {
             if (this.inject != null) this.inject = null;
             let $prefix, $middleware, $callback;
-            if (arguments.length === 2) {
-                $prefix = (typeof arguments[0] == "string") ? arguments[0] : undefined;
-                $callback = (typeof arguments[1] == "function") ? arguments[1] : undefined;
-            } else if (arguments.length === 3) {
-                $prefix = (typeof arguments[0] === "string") ? arguments[0] : undefined;
-                $callback = (typeof arguments[2] == "function") ? arguments[2] : undefined;
-                $middleware = (typeof arguments[1] == "object") ? arguments[1] : undefined;
+            if (args.length === 2) {
+                $prefix = (typeof args[0] == "string") ? args[0] : undefined;
+                $callback = (typeof args[1] == "function") ? args[1] : undefined;
+            } else if (args.length === 3) {
+                $prefix = (typeof args[0] === "string") ? args[0] : undefined;
+                $callback = (typeof args[2] == "function") ? args[2] : undefined;
+                $middleware = (typeof args[1] == "object") ? args[1] : undefined;
             } else {
                 console.error("Error Preparing router group invalid or missing arguments");
                 return;
@@ -82,7 +83,7 @@ class Router extends express.Router {
 
             if (typeof $prefix !== undefined && typeof $callback == "function") {
                 this.bindPrefix = (this.bindPrefix == null) ? $prefix : this.bindPrefix + $prefix;
-                if (arguments.length === 3) {
+                if (args.length === 3) {
 
                     for (let i = 0; i < $middleware.length; i++) {
                         for (let j = 0; j < Middleware.children.length; j++) {
@@ -96,89 +97,37 @@ class Router extends express.Router {
                     $callback();
 
                 } else $callback();
-                return this.app.use(this.bindPrefix, this);
+                return this.app.use($prefix, this);
             }
 
         };
-        this.get = function () {
-            if (typeof arguments[1] == "function") {
-                return this.route(arguments[0]).get(arguments[1]);
-            } else if (typeof arguments[1] == "string") {
-                let $args = arguments[1].split('@'),
-                    controller = $controllerObject($injectController($args, this.inject));
-                if (controller[$args[1]] !== undefined) {
-                    this.route(arguments[0]).get(controller[$args[1]]);
-                } else {
-                    this.route(arguments[0]).get((Request, Response) => {
-                        Response.status(404).send(`Invalid ${$args[1]} method`);
-                    });
-                }
+        this.methods = () => {
+            for(let i=0;i<this.verbs.length;i+=1){
+                const method = this.verbs[i];
+                Object.defineProperty(this, method, {
+                    value: (...args) => {
+                        if (typeof args[1] == "function") {
+                            this.route(args[0])[method](args[1]);
+                        } else if (typeof args[1] == "string") {
+                            let $args = args[1].split('@');
+                            let controller = $controllerObject($injectController($args, this.inject));
+                            if (controller[$args[1]] !== undefined) {
+                                return this.route(args[0])[method](controller[$args[1]]);
+                            } else {
+                                return this.route(args[0])[method]((Request, Response) => {
+                                    Response.status(404).send(`Invalid ${$args[1]} method`);
+                                });
+                            }
+                        }
+                    },
+                    writable: false
+                });
             }
         };
-        this.post = function () {
-            if (typeof arguments[1] == "function") {
-                return this.route(arguments[0]).post(arguments[1]);
-            } else if (typeof arguments[1] == "string") {
-                let $args = arguments[1].split('@'),
-                    controller = $controllerObject($injectController($args, this.inject));
-                if (controller[$args[1]] !== undefined) {
-                    this.route(arguments[0]).post(controller[$args[1]]);
-                } else {
-                    this.route(arguments[0]).post((Request, Response) => {
-                        Response.status(404).send(`Invalid ${$args[1]} method`);
-                    });
-                }
-            }
-        };
-        this.put = function () {
-            if (typeof arguments[1] == "function") {
-                return this.route(arguments[0]).put(arguments[1]);
-            } else if (typeof arguments[1] == "string") {
-                let $args = arguments[1].split('@'),
-                    controller = $controllerObject($injectController($args, this.inject));
-                if (controller[$args[1]] !== undefined) {
-                    this.route(arguments[0]).put(controller[$args[1]]);
-                } else {
-                    this.route(arguments[0]).put((Request, Response) => {
-                        Response.status(404).send(`Invalid ${$args[1]} method`);
-                    });
-                }
-            }
-        };
-        this.patch = function () {
-            if (typeof arguments[1] == "function") {
-                return this.route(arguments[0]).patch(arguments[1]);
-            } else if (typeof arguments[1] == "string") {
-                let $args = arguments[1].split('@'),
-                    controller = $controllerObject($injectController($args, this.inject));
-                if (controller[$args[1]] !== undefined) {
-                    this.route(arguments[0]).patch(controller[$args[1]]);
-                } else {
-                    this.route(arguments[0]).patch((Request, Response) => {
-                        Response.status(404).send(`Invalid ${$args[1]} method`);
-                    });
-                }
-            }
-        };
-        this.delete = function () {
-            if (typeof arguments[1] == "function") {
-                return this.route(arguments[0]).delete(arguments[1]);
-            } else if (typeof arguments[1] == "string") {
-                let $args = arguments[1].split('@'),
-                    controller = $controllerObject($injectController($args, this.inject));
-                if (controller[$args[1]] !== undefined) {
-                    this.route(arguments[0]).delete(controller[$args[1]]);
-                } else {
-                    this.route(arguments[0]).delete((Request, Response) => {
-                        Response.status(404).send(`Invalid ${$args[1]} method`);
-                    });
-                }
-            }
-        };
+        this.methods();
 
     }
 }
-
 
 
 module.exports = $app => new Router($app);
