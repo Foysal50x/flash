@@ -4,7 +4,29 @@ Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
 
+### Folder Structure
+
+    .
+    ├── App							#Source file alternative(src, lib) directory
+	|	├── Config
+	|	|	├── config.js				#Application config file (database, secrete key, rule etc.)
+	|	|	└── web.js				#define route
+	|	├── Controllers
+	|	|	├── FlashController.js			#Default Controller
+	|	├── Middleware
+	|	├── Models
+	|	└── Views
+    ├── Public						#Static file directory 
+    ├── Run                     
+	|	└── main.js					#Executed Main file
+    ├── boot.js						#Boot file (initialize all code)
+    ├── package.json                   
+    ├── LICENSE
+    └── README.md
+### Example snippet
+Create server.js in your project root folder and copy this code and past into your server.js file then open your terminal goto your project root run this command in your terminal ``node server.js `` Awesome you just create your first flash server checkout your server work on not open your browser type ``localhost:3000`` in browser addressbar and hit enter. 
 ```js
+global.__basedir = __dirname;				//it's required
 const flash = require("@faisal50x/flash");
 const app = flash();
 const Router = flash.router(app);
@@ -90,7 +112,7 @@ $ npm install -g @faisal50x/flashcli
 Create the app:
 
 ```bash
-$ flash create demo-app
+$ flash new demo-app
 ```
 
 Ready to go your project root:

@@ -11,12 +11,12 @@
 const express = require('express');
 const dirTree = require('directory-tree');
 
-const Middleware = dirTree("app/middleware", {
+const Middleware = dirTree("App/Middleware", {
     extensions: /\.js/
 });
 
 const parseController = (dir, controller) => {
-    const directory = (typeof dir == "string") ? "app/controllers" + dir : "app/controllers";
+    const directory = (typeof dir == "string") ? "App/Controllers" + dir : "App/Controllers";
     const path = dirTree(directory, {
         extensions: /\.js/
     });
@@ -90,7 +90,7 @@ class Router extends express.Router {
                             let arr = Middleware.children[j].name.split("."),
                                 fileName = arr[0];
                             if (fileName.toString().toLowerCase() === $middleware[i].toString().toLowerCase()) {
-                                this.use(require(__basedir + "/app/" + Middleware.name + "/" + fileName));
+                                this.use(require(__basedir + "/App/" + Middleware.name + "/" + fileName));
                             }
                         }
                     }
