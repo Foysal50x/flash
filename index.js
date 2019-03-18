@@ -17,7 +17,7 @@ module.exports.author = {
     web: "http://imfaisal.me"
 };
 module.exports.router = (app) => {
-    const required_dir = ['app', 'app/controllers', 'app/middleware'];
+    const required_dir = ['App', 'App/Controllers', 'App/Middleware'];
     required_dir.forEach(dir => {
         if (!fs.existsSync(__basedir + "/" + dir)) {
             console.warn("Missing required directory\n Please Create [ " + dir + "] Directory\n");
@@ -29,8 +29,8 @@ module.exports.router = (app) => {
 };
 
 module.exports.db = () => {
-    const configdir = __basedir + "/app/config";
-    const configfile = __basedir + "/app/config/config.js";
+    const configdir = __basedir + "/App/Config";
+    const configfile = __basedir + "/App/Config/config.js";
     if (!fs.existsSync(configdir)) {
         fs.mkdirsSync(configdir);
     } else {
