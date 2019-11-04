@@ -30,6 +30,6 @@
     "express": "^4.16.4",
     "fs-extra": "^7.0.1",
     "mongoose": "^5.4.0",
-    "sequelize": "^4.42.0"
+    "sequelize": "^5.15.1"
   }
 }
